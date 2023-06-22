@@ -136,7 +136,7 @@ kubectl logs -f -l app.kubernetes.io/name=demo-app -n demo
 
 ### 5. Access Application Endpoints:
 
-By default, `ClusterIP` is used in this helm chart, which technically means that the `Service` endpoint is only accessible within the cluster. 
+By default, `ClusterIP` is used in this helm chart, which technically means that the `Service` endpoint is only accessible within the cluster.
 
 In order to access the application endpoints, `kubectl port-forward` can be used. It will allow connection/traffic to a local port to be forwarded to the port of the `Service` in the cluster for navigation/access purposes.
 

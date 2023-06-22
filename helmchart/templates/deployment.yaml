@@ -76,7 +76,7 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: {{ .Release.Name }}-secrets
-                key: SSM_NAME                
+                key: SSM_NAME
           - name: SSM_ENVIRONMENT
             valueFrom:
               secretKeyRef:
@@ -96,7 +96,7 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: {{ .Release.Name }}-secrets
-                key: SSH_HASH_KEY 
+                key: SSH_HASH_KEY
           ports:
             - name: {{ .Values.containers.ports.name }}
               containerPort: {{ .Values.containers.ports.containerPort }}

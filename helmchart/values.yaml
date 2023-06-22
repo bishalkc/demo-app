@@ -167,4 +167,3 @@ postgresql:
     persistence:
       enabled: false
 #########---- DEPENDENCY CHART: postgresql ----#########
-
