@@ -23,4 +23,4 @@ WORKDIR /code
 USER ${APP_USER}
 EXPOSE 80
 
-CMD ["uvicorn", "app.main:api", "--host", "0.0.0.0", "--port", "80"]
+CMD ["uvicorn", "app.main:api", "--host", "0.0.0.0", "--port", "8080"]
