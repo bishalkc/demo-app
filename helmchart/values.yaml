@@ -78,7 +78,7 @@ hpa:
   maxReplicas: 10
   metrics:
     cpuUtilizationPercentage: 80
-    # memoryUtilizationPercentage: 80
+    memoryUtilizationPercentage: 80
   behavior:
     scaleDown:
       stabilizationWindowSeconds: 0
@@ -125,8 +125,29 @@ ingress:
         - path: /
           pathType: ImplementationSpecific
   tls: []
+  inbound_cidrs:
+    {}
+    # enabled: false
+    # cidrs: ""
+  alb:
+    {}
+    # enabled: false
+    # delete_protection: false
+  ssl:
+    {}
+    # enabled: false
+    # port: 443
 
 #########---- Default disabled ingress ----#########
+
+#########---- Default values app ----#########
+app:
+  environment: dev
+  port: 80
+  project: "demo-app"
+  tenant: "DA"
+  framework: "python"
+#########---- Default values app ----#########
 
 #########---- DEPENDENCY CHART: postgresql ----#########
 postgresql:
@@ -146,3 +167,4 @@ postgresql:
     persistence:
       enabled: false
 #########---- DEPENDENCY CHART: postgresql ----#########
+

@@ -37,7 +37,9 @@ Common labels
 helm.sh/chart: {{ include "demo-app.chart" . }}
 app.kubernetes.io/version: {{ .Chart.Version | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-app.kubernetes.io/component: api
+framework: {{ .Values.app.framework }}
+project: {{ .Values.app.project }}
+environment: {{ .Values.app.environment }}
 {{ include "demo-app.selectorLabels" . }}
 {{- end }}
 
@@ -66,4 +68,31 @@ Create the name of the service account to use
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
+{{- end }}
+
+{{/*
+Common annotations
+*/}}
+{{- define "demo-app.ingressAnnotations" -}}
+{{- if .Values.ingress.alb.enabled  -}}
+kubernetes.io/ingress.class: alb
+alb.ingress.kubernetes.io/scheme: internet-facing
+{{- else }}
+kubernetes.io/ingress.class: alb
+alb.ingress.kubernetes.io/scheme: internet-facing
+{{- end }}
+{{- if .Values.ingress.inbound_cidrs.enabled  -}}
+alb.ingress.kubernetes.io/inbound-cidrs: {{ .Values.ingress.inbound_cidrs.enabled }}
+{{- end }}
+{{- if .Values.ingress.ssl.enabled  -}}
+alb.ingress.kubernetes.io/ssl-redirect: {{ .Values.ingress.ssl.port }}
+alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": {{.Values.ingress.ssl.port }}}]'
+{{- end }}
+{{- if .Values.ingress.alb.delete_protection -}}
+alb.ingress.kubernetes.io/load-balancer-attributes: deletion_protection.enabled=true
+{{- end }}
+alb.ingress.kubernetes.io/healthcheck-path: {{ .Values.readinessProbe.path }}
+alb.ingress.kubernetes.io/success-codes: '200-403'
+alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=300
+alb.ingress.kubernetes.io/target-type: ip
 {{- end }}

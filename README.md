@@ -228,4 +228,4 @@ curl -i -d '{"text":"HTTP POST method testing"}' -H "Content-Type: application/j
 
 ## Author Information
 
-This project was developed by [Ali Muhammad](https://www.alimuhammad.dev/).
+This project was developed by [Ali Muhammad](https://www.alimuhammad.dev/), modified by [Bishal KC] (https://www.github.com/bishalkc).

@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "demo-app.labels" . | nindent 4 }}
+  annotations:
+    {{- include "demo-app.ingressAnnotations" . | nindent 4 }}
+    {{- include "demo-app.annotations" . | nindent 4 }}
+
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /*
+            backend:
+              serviceName: {{ .Release.Name }}
+              servicePort: {{ .Values.app.port }}
