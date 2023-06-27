@@ -103,6 +103,7 @@ serviceAccount:
   create: true
   # name: "demo-app"
   automount: true
+  aws_region: "us-east-1"
   aws_account_id: "138904756338"
   role: "role-secrets-{{ .Values.app.project }}-{{ .Values.app.enviroment }}-{{ .Values.app.framework }}"
 #########---- Default values for Kubernetes object: serviceAccount ----#########

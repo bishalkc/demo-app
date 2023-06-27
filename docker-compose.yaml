@@ -8,7 +8,7 @@ services:
       args:
         - APP_USER=demo-app
         - APP_UUID=1020
-    image: local/demo-app:v5
+    image: local/demo-app:v11
     environment:
       - SECURE_PASSWORD_1=i-am-encoded-secret-1
       - SECURE_PASSWORD_2=i-am-encoded-secret-2
@@ -16,7 +16,7 @@ services:
     networks:
       - demo-app
     ports:
-      - "80:80"
+      - "80:8080"
     # depends_on:
     #   - db
     logging:

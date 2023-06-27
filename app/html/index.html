@@ -7,11 +7,28 @@
 
 <h1 style="text-align:center;font-family:courier;color:dimgray;">demo-app</h1>
 <h3 style="text-align:center;font-family:courier;color:dimgray;">App: demo-app</h3>
-<h3 style="text-align:center;font-family:courier;color:dimgray;">Kubernetes Cluster Orchestrator: <a href="https://minikube.sigs.k8s.io/">minikube</a></h3>
+<h3 style="text-align:center;font-family:courier;color:dimgray;">Kubernetes Cluster Orchestrator: <a href="https://aws.amazon.com/eks/">AWS EKS/FARGATE</a></h3>
+<h3 style="text-align:center;font-family:courier;color:dimgray;">IaaC: <a href="https://www.terrafrom.io/">terraform</a></h3>
 <h3 style="text-align:center;font-family:courier;color:dimgray;">Package Manager: <a href="https://helm.sh/">helm</a></h3>
 <h3 style="text-align:center;font-family:courier;color:dimgray;">Kubernetes CLI: <a href="https://kubernetes.io/docs/tasks/tools/#kubectl">kubectl</a></h3>
 <h3 style="text-align:center;font-family:courier;color:dimgray;">Container Driver: <a href="https://docs.docker.com/get-docker/">Docker</a></h3>
-<p style="text-align:center;font-family:courier;color:dimgray;">This is sample container app (utilizes <b>FastAPI</b> framework), let's call it <b>"demo-app"</b>, that connects to a <b>PostgreSQL</b> database.</p>
+<p style="text-align:center;font-family:courier;color:dimgray;">This is sample container app (utilizes <b>FastAPI</b> framework), let's call it <b>"demo-app"</b>, it fetches secrets from <a href="https://aws.amazon.com/secrets-manager/">secret manager</a> and availabe at <b><i>/secrets</i></b> and fetches ssm from <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html">Parameter Store</a> and available at <b><i>/ssm</i></b></p>
+<p style="text-align:center;font-family:courier;color:dimgray;">The test paths are:</p>
+<p style="text-align:center;font-family:courier;color:dimgray;">
+<ul style="text-align:center;font-family:courier;color:dimgray;">
+  <br>
+  <a href="/secrets">Values from secret mananger</a>
+  <br>
+  <a href="/ssm">Values from parameter store</a>
+  <br>
+  <a href="/private/hostname">Get the hostname</a>
+  <br>
+  <a href="/health/liveness">Application Liveness HealthCheck</a>
+  <br>
+  <a href="/health/readyness">Application Readyness HealthCheck</a>
+</ul>
+</p>
+
 <p style="text-align:center;font-family:courier;color:dimgray;">A <b>Helm</b> Chart to release it to Kubernetes Cluster for demo/learning purposes.</p>
 
 <div style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/9wvEwPLcLcA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>

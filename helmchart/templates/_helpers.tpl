@@ -62,7 +62,7 @@ managed-by: devops-team
 Service Account annotations
 */}}
 {{- define "demo-app.serviceAccountAnnotations" -}}
-eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Values.serviceAccount.aws_account_id}}:role/role-secrets-{{ .Values.app.project }}-{{ .Values.app.environment }}-{{ .Values.app.framework }}"
+eks.amazonaws.com/role-arn: "arn:aws:iam:{{ .Values.serviceAccount.aws_region}}:{{ .Values.serviceAccount.aws_account_id}}:role/role-secrets-{{ .Values.app.project }}-{{ .Values.app.environment }}-{{ .Values.app.framework }}"
 {{- end }}
 
 {{/*
@@ -82,7 +82,7 @@ Common annotations
 {{- define "demo-app.ingressAnnotations" -}}
 {{- if .Values.ingress.alb.enabled  -}}
 alb.ingress.kubernetes.io/scheme: internet-facing
-alb.ingress.kubernetes.io/load-balancer-name: {{ .Values.app.project }}
+alb.ingress.kubernetes.io/load-balancer-name: "{{ .Values.app.project }}-{{ .Values.app.framework }}-{{ .Values.app.environemnt }}"
 {{- else }}
 alb.ingress.kubernetes.io/scheme: internal
 {{- end }}
