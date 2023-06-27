@@ -37,12 +37,12 @@ spec:
           type: Utilization
           averageUtilization: {{ .Values.hpa.metrics.cpuUtilizationPercentage }}
     {{- end }}
-    # {{- if .Values.hpa.metrics.memoryUtilizationPercentage }}
-    # - type: Resource
-    #   resource:
-    #     name: memory
-    #     target:
-    #       type: Utilization
-    #       averageUtilization: {{ .Values.hpa.metrics.memoryUtilizationPercentage }}
-    # {{- end }}
+    {{- if .Values.hpa.metrics.memoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: {{ .Values.hpa.metrics.memoryUtilizationPercentage }}
+    {{- end }}
 {{- end }}

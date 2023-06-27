@@ -27,7 +27,7 @@ deployment:
 
 image:
   repository: "bishalkc/demo-app"
-  tag: "v4"
+  tag: "v10"
   pullPolicy: "IfNotPresent"
 
 containers:
@@ -74,7 +74,7 @@ livenessProbe:
 #########---- Default values for Kubernetes object: HorizontalPodAutoscaler (hpa) ----#########
 hpa:
   enabled: true
-  minReplicas: 2
+  minReplicas: 3
   maxReplicas: 10
   metrics:
     cpuUtilizationPercentage: 80
@@ -103,6 +103,8 @@ serviceAccount:
   create: true
   # name: "demo-app"
   automount: true
+  aws_account_id: "138904756338"
+  role: "role-secrets-{{ .Values.app.project }}-{{ .Values.app.enviroment }}-{{ .Values.app.framework }}"
 #########---- Default values for Kubernetes object: serviceAccount ----#########
 
 #########---- MCaaS Network Policy ----#########
@@ -146,7 +148,21 @@ app:
   port: 8080
   project: "demo-app"
   tenant: "DA"
-  framework: "python"
+  framework: "demo"
+  cluster_name: "demo-cluster"
+  secrets:
+    manager:
+      enabled: true
+      name: "database-v4"
+      type: "aws"
+    ssm:
+      enabled: true
+      params:
+        - name
+        - environment
+        - framework
+        - api_key
+        - hash_key
 #########---- Default values app ----#########
 
 #########---- DEPENDENCY CHART: postgresql ----#########

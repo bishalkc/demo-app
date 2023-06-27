@@ -11,11 +11,15 @@ metadata:
     {{- include "demo-app.annotations" . | nindent 4 }}
 
 spec:
+  ingressClasName: alb
   rules:
     - http:
         paths:
-          - path: /*
+          - path: /
+            pathType: Prefix
             backend:
-              serviceName: {{ .Release.Name }}
-              servicePort: {{ .Values.app.port }}
+              service:
+                name: {{ .Release.Name }}
+                port:
+                  number: {{ .Values.service.port }}
 {{- end }}

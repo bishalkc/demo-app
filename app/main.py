@@ -62,12 +62,12 @@ ENV_HOSTNAME = environ.get('HOSTNAME')
 SECRET_USER = environ.get('SECRET_USER')
 SECRET_PASSWORD = environ.get('SECRET_PASSWORD')
 SECRET_HOST = environ.get('SECRET_HOST')
-SECRET_DBHOST = environ.get('SECRET_DBHOST')
+SECRET_DBNAME = environ.get('SECRET_DBNAME')
 SSM_NAME = environ.get('SSM_NAME')
 SSM_ENVIRONMENT = environ.get('SSM_ENVIRONMENT')
 SSM_FRAMEWORK = environ.get('SSM_FRAMEWORK')
 SSM_API_KEY = environ.get('SSM_API_KEY')
-SSH_HASH_KEY = environ.get('SSH_HASH_KEY')
+SSH_HASH_KEY = environ.get('SSM_HASH_KEY')
 CUSTOM_HEADERS = {"X-App-Header": "demo-app", "Content-Language": "en-US", "Content-Type": "application/json"}
 ## VARS ##
 
@@ -104,12 +104,12 @@ def readiness():
 
 @api.get("/secrets")
 def readiness():
-    content = {"SECRET_USER": SECRET_USER, "SECRET_PASSWORD": SECRET_PASSWORD, "SECRET_HOST": SECRET_HOST, "SECRET_DBHOST": SECRET_DBHOST}
+    content = {"SECRET_USER": SECRET_USER, "SECRET_PASSWORD": SECRET_PASSWORD, "SECRET_HOST": SECRET_HOST, "SECRET_DBNAME": SECRET_DBNAME}
     return JSONResponse(content=content, headers=CUSTOM_HEADERS)
 
 @api.get("/ssm")
 def readiness():
-    content = {"SSM_NAME": SSM_NAME, "SSM_ENVIRONMENT": SSM_ENVIRONMENT, "SSM_FRAMEWORK": SSM_FRAMEWORK, "SSM_API_KEY": SSM_API_KEY, "SSH_HASH_KEY": SSH_HASH_KEY}
+    content = {"SSM_NAME": SSM_NAME, "SSM_ENVIRONMENT": SSM_ENVIRONMENT, "SSM_FRAMEWORK": SSM_FRAMEWORK, "SSM_API_KEY": SSM_API_KEY, "SSM_HASH_KEY": SSM_HASH_KEY}
     return JSONResponse(content=content, headers=CUSTOM_HEADERS)
 
 @api.post("/publisher")

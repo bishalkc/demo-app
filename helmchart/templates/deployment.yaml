@@ -40,6 +40,13 @@ spec:
         labelSelector:
           matchLabels:
             {{- include "demo-app.selectorLabels" . | nindent 14 }}
+      volumes:
+      - name: {{ .Release.Name }}-aws-secrets-store
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: aws-secrets
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -51,52 +58,56 @@ spec:
             runAsGroup: {{ .Values.containers.securityContext.runAsGroup }}
             runAsNonRoot: {{ .Values.containers.securityContext.runAsNonRoot }}
             runAsUser: {{ .Values.containers.securityContext.runAsUser }}
+          volumeMounts:
+          - name: {{ .Release.Name }}-aws-secrets-store
+            mountPath: /mnt/secrets
+            readOnly: true
           env:
           - name: SECRET_USER
             valueFrom:
               secretKeyRef:
-                name: {{ .Release.Name }}-secrets
-                key: SECRET_USER
+                name: {{ .Release.Name }}-aws-secrets
+                key: db_user
           - name: SECRET_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: {{ .Release.Name }}-secrets
-                key: SECRET_PASSWORD
+                name: {{ .Release.Name }}-aws-secrets
+                key: db_password
           - name: SECRET_HOST
             valueFrom:
               secretKeyRef:
-                name: {{ .Release.Name }}-secrets
-                key: SECRET_HOST
-          - name: SECRET_DBHOST
+                name: {{ .Release.Name }}-aws-secrets
+                key: db_host
+          - name: SECRET_DBNAME
             valueFrom:
               secretKeyRef:
-                name: {{ .Release.Name }}-secrets
-                key: SECRET_DBHOST
+                name: {{ .Release.Name }}-aws-secrets
+                key: db_name
           - name: SSM_NAME
             valueFrom:
               secretKeyRef:
-                name: {{ .Release.Name }}-secrets
-                key: SSM_NAME
+                name: {{ .Release.Name }}-aws-secrets
+                key: ssm_name
           - name: SSM_ENVIRONMENT
             valueFrom:
               secretKeyRef:
-                name: {{ .Release.Name }}-secrets
-                key: SSM_ENVIRONMENT
+                name: {{ .Release.Name }}-aws-secrets
+                key: ssm_environment
           - name: SSM_FRAMEWORK
             valueFrom:
               secretKeyRef:
-                name: {{ .Release.Name }}-secrets
-                key: SSM_FRAMEWORK
+                name: {{ .Release.Name }}-aws-secrets
+                key: ssm_framework
           - name: SSM_API_KEY
             valueFrom:
               secretKeyRef:
-                name: {{ .Release.Name }}-secrets
-                key: SSM_API_KEY
-          - name: SSH_HASH_KEY
+                name: {{ .Release.Name }}-aws-secrets
+                key: ssm_api_key
+          - name: SSM_HASH_KEY
             valueFrom:
               secretKeyRef:
-                name: {{ .Release.Name }}-secrets
-                key: SSH_HASH_KEY
+                name: {{ .Release.Name }}-aws-secrets
+                key: ssm_hash_key
           ports:
             - name: {{ .Values.containers.ports.name }}
               containerPort: {{ .Values.containers.ports.containerPort }}
