@@ -11,7 +11,7 @@ metadata:
     {{- include "demo-app.annotations" . | nindent 4 }}
 
 spec:
-  ingressClasName: alb
+  ingressClassName: {{ .Values.ingress.className }}
   rules:
     - http:
         paths:

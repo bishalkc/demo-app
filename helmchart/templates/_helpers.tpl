@@ -81,11 +81,10 @@ Common annotations
 */}}
 {{- define "demo-app.ingressAnnotations" -}}
 {{- if .Values.ingress.alb.enabled  -}}
-kubernetes.io/ingress.class: alb
 alb.ingress.kubernetes.io/scheme: internet-facing
+alb.ingress.kubernetes.io/load-balancer-name: {{ .Values.app.project }}
 {{- else }}
-kubernetes.io/ingress.class: alb
-alb.ingress.kubernetes.io/scheme: internet-facing
+alb.ingress.kubernetes.io/scheme: internal
 {{- end }}
 {{- if .Values.ingress.inbound_cidrs.enabled  -}}
 alb.ingress.kubernetes.io/inbound-cidrs: {{ .Values.ingress.inbound_cidrs.enabled }}

@@ -67,7 +67,7 @@ SSM_NAME = environ.get('SSM_NAME')
 SSM_ENVIRONMENT = environ.get('SSM_ENVIRONMENT')
 SSM_FRAMEWORK = environ.get('SSM_FRAMEWORK')
 SSM_API_KEY = environ.get('SSM_API_KEY')
-SSH_HASH_KEY = environ.get('SSM_HASH_KEY')
+SSM_HASH_KEY = environ.get('SSM_HASH_KEY')
 CUSTOM_HEADERS = {"X-App-Header": "demo-app", "Content-Language": "en-US", "Content-Type": "application/json"}
 ## VARS ##
 
