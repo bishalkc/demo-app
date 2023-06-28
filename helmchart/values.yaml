@@ -116,7 +116,7 @@ networkPolicy:
 
 #########---- Default disabled ingress ----#########
 ingress:
-  enabled: true
+  enabled: false
   className: "alb"
   annotations:
     {}
