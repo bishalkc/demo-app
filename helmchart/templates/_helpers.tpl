@@ -82,7 +82,7 @@ Common annotations
 {{- define "demo-app.ingressAnnotations" -}}
 {{- if .Values.ingress.alb.enabled  -}}
 alb.ingress.kubernetes.io/scheme: internet-facing
-alb.ingress.kubernetes.io/load-balancer-name: "{{ .Values.app.project }}-{{ .Values.app.framework }}-{{ .Values.app.environemnt }}"
+alb.ingress.kubernetes.io/load-balancer-name: "{{ .Values.app.project }}-{{ .Values.app.framework }}-{{ .Values.app.environment }}"
 {{- else }}
 alb.ingress.kubernetes.io/scheme: internal
 {{- end }}
