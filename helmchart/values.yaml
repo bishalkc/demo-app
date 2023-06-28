@@ -154,7 +154,7 @@ app:
   secrets:
     manager:
       enabled: true
-      name: "database-v4"
+      name: "database-v5"
       type: "aws"
     ssm:
       enabled: true

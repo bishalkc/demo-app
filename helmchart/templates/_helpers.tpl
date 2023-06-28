@@ -62,7 +62,7 @@ managed-by: devops-team
 Service Account annotations
 */}}
 {{- define "demo-app.serviceAccountAnnotations" -}}
-eks.amazonaws.com/role-arn: "arn:aws:iam:{{ .Values.serviceAccount.aws_region}}:{{ .Values.serviceAccount.aws_account_id}}:role/role-secrets-{{ .Values.app.project }}-{{ .Values.app.environment }}-{{ .Values.app.framework }}"
+eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Values.serviceAccount.aws_account_id}}:role/role-secrets-{{ .Values.app.project }}-{{ .Values.app.environment }}-{{ .Values.app.framework }}"
 {{- end }}
 
 {{/*
