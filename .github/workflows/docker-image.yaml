@@ -25,7 +25,7 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
-            type=sha,enable=true,priority=100,prefix={{branch}}-{{date 'YYYYMMDD-hhmmss'}},format=short
+            type=sha,enable=true,priority=100,prefix={{branch}}-,suffix=-{{date 'YYYYMMDD-hhmmss'}},format=short
           flavor: |
             latest=false
       - name: Set up QEMU
