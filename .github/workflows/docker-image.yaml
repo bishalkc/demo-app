@@ -22,9 +22,9 @@ jobs:
             type=ref,event=branch
             type=ref,event=pr
             type=semver,pattern={{version}}
-            type=semver,pattern={{branch}}-v{{version}}
-            type=semver,pattern={{branch}}-v{{major}}.{{minor}}
-            type=semver,pattern={{branch}}-v{{major}}
+            type=semver,pattern={{version}},prefix={{branch}}-v
+            type=semver,pattern={{major}}.{{minor}},prefix={{branch}}-v
+            type=semver,pattern={{major}},prefix={{branch}}-v
             type=sha,enable=true,priority=100,prefix={{branch}}-,suffix=-{{date 'YYYYMMDD-hhmmss'}},format=short
           flavor: |
             latest=false
