@@ -20,12 +20,13 @@ jobs:
           tags: |
             type=schedule
             type=ref,event=branch
+            type=ref,event=branch,enable=true,priority=600,suffix=-{{sha}}-{{date 'YYYYMMDD-hhmmss'}}
             type=ref,event=pr
-            type=semver,pattern={{version}}
+            type=ref,event=tag
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
-            type=sha,enable=true,priority=100,prefix={{branch}}-,suffix=-{{date 'YYYYMMDD-hhmmss'}},format=short
+            type=shat
           flavor: |
             latest=false
       - name: Set up QEMU
