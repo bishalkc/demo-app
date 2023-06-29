@@ -68,6 +68,8 @@ SSM_ENVIRONMENT = environ.get('SSM_ENVIRONMENT')
 SSM_FRAMEWORK = environ.get('SSM_FRAMEWORK')
 SSM_API_KEY = environ.get('SSM_API_KEY')
 SSM_HASH_KEY = environ.get('SSM_HASH_KEY')
+IMAGE_ID = environ.get('IMAGE_ID')
+
 CUSTOM_HEADERS = {"X-App-Header": "demo-app", "Content-Language": "en-US", "Content-Type": "application/json"}
 ## VARS ##
 
