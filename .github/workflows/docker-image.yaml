@@ -16,7 +16,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            name/app
+            docker.io/${{ github.repository }}
           tags: |
             type=schedule
             type=ref,event=branch
