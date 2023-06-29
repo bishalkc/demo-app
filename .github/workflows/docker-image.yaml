@@ -16,9 +16,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            docker.io/${{ github.repository }}
-            ghcr.io/${{ github.repository }}
-            quay.io/${{ github.repository }}
+            name/app
           tags: |
             type=schedule
             type=ref,event=branch
