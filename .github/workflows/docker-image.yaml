@@ -21,10 +21,10 @@ jobs:
             type=schedule
             type=ref,event=branch
             type=ref,event=pr
-            type=semver,enable=true,priority=900,pattern={{version}}
-            type=semver,enable=true,priority=900,pattern={{version}},prefix={{branch}}-v
-            type=semver,enable=true,priority=900,pattern={{major}}.{{minor}},prefix={{branch}}-v
-            type=semver,enable=true,priority=900,pattern={{major}},prefix={{branch}}-v
+            type=semver,pattern={{version}}
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
             type=sha,enable=true,priority=100,prefix={{branch}}-,suffix=-{{date 'YYYYMMDD-hhmmss'}},format=short
           flavor: |
             latest=false
