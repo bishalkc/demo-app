@@ -81,6 +81,7 @@ CUSTOM_HEADERS = {"X-App-Header": "demo-app", "Content-Language": "en-US", "Cont
 #     return JSONResponse(content=content, headers=CUSTOM_HEADERS)
 
 
+
 @api.get("/", response_class=HTMLResponse)
 def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
