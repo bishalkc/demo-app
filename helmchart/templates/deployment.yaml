@@ -108,6 +108,8 @@ spec:
               secretKeyRef:
                 name: "{{ .Release.Name }}-{{ .Values.app.framework }}-aws-secrets"
                 key: ssm_hash_key
+          - name: IMAGE_ID
+            value: "{{ .Values.image.repository}}:{{ .Values.image.tag }}"
           ports:
             - name: {{ .Values.containers.ports.name }}
               containerPort: {{ .Values.containers.ports.containerPort }}

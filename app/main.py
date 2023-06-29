@@ -116,3 +116,8 @@ def readiness():
 async def publisher(data: Item):
     content = {"message": f"{data.text}"}
     return JSONResponse(content=content, headers=CUSTOM_HEADERS)
+
+@api.post("/id")
+async def id(data: Item):
+    content = {"IMAGE_ID": IMAGE_ID}
+    return JSONResponse(content=content, headers=CUSTOM_HEADERS)
