@@ -40,6 +40,7 @@ spec:
         labelSelector:
           matchLabels:
             {{- include "demo-app.selectorLabels" . | nindent 14 }}
+      {{- if or .Values.app.secrets.manager.enabled .Values.app.secrets.ssm.enabled}}
       volumes:
       - name: "{{ .Release.Name }}-{{ .Values.app.name }}-{{ .Values.app.framework }}-aws-secrets-store"
         csi:
@@ -47,6 +48,7 @@ spec:
           readOnly: true
           volumeAttributes:
             secretProviderClass: "{{ .Release.Name }}-{{ .Values.app.name }}-{{ .Values.app.framework }}-spc"
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -58,10 +60,12 @@ spec:
             runAsGroup: {{ .Values.containers.securityContext.runAsGroup }}
             runAsNonRoot: {{ .Values.containers.securityContext.runAsNonRoot }}
             runAsUser: {{ .Values.containers.securityContext.runAsUser }}
+          {{- if or .Values.app.secrets.manager.enabled .Values.app.secrets.ssm.enabled}}
           volumeMounts:
           - name: "{{ .Release.Name }}-{{ .Values.app.name }}-{{ .Values.app.framework }}-aws-secrets-store"
             mountPath: /mnt/secrets
             readOnly: true
+          {{- end }}
           env:
           {{- if .Values.app.secrets.manager.enabled }}
           {{- range .Values.app.secrets.manager.params }}
