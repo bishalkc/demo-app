@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: {{ .Values.namespace }}
-  name: {{ .Release.Name }}
+  name: {{ .Values.namespace }}
   labels:
     {{- include "demo-app.labels" . | nindent 4 }}
   annotations:
@@ -29,7 +29,7 @@ spec:
       labels:
         {{- include "demo-app.labels" . | nindent 8 }}
     spec:
-      serviceAccountName: {{ .Release.Name }}-sa
+      serviceAccountName: {{ .Values.namespace }}-sa
       securityContext:
         fsGroup: {{ .Values.deployment.securityContext.fsGroup }}
       terminationGracePeriodSeconds: {{ .Values.deployment.terminationGracePeriodSeconds }}
@@ -42,12 +42,12 @@ spec:
             {{- include "demo-app.selectorLabels" . | nindent 14 }}
       {{- if or .Values.app.secrets.manager.enabled .Values.app.secrets.ssm.enabled}}
       volumes:
-      - name: "{{ .Release.Name }}-{{ .Values.app.name }}-{{ .Values.app.framework }}-aws-secrets-store"
+      - name: "{{ .Values.namespace }}-{{ .Values.app.framework }}-aws-secrets-store"
         csi:
           driver: secrets-store.csi.k8s.io
           readOnly: true
           volumeAttributes:
-            secretProviderClass: "{{ .Release.Name }}-{{ .Values.app.name }}-{{ .Values.app.framework }}-spc"
+            secretProviderClass: "{{ .Values.namespace }}-{{ .Values.app.framework }}-spc"
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
@@ -62,7 +62,7 @@ spec:
             runAsUser: {{ .Values.containers.securityContext.runAsUser }}
           {{- if or .Values.app.secrets.manager.enabled .Values.app.secrets.ssm.enabled}}
           volumeMounts:
-          - name: "{{ .Release.Name }}-{{ .Values.app.name }}-{{ .Values.app.framework }}-aws-secrets-store"
+          - name: "{{ .Values.namespace }}-{{ .Values.app.framework }}-aws-secrets-store"
             mountPath: /mnt/secrets
             readOnly: true
           {{- end }}
@@ -72,7 +72,7 @@ spec:
           - name: SECRET_{{ upper . }}
             valueFrom:
               secretKeyRef:
-                name: "{{ $.Release.Name }}-{{ $.Values.app.name }}-{{ $.Values.app.framework }}-aws-secrets"
+                name: "{{ $.Values.namespace }}-{{ $.Values.app.framework }}-aws-secrets"
                 key: secret_{{ . }}
           {{- end }}
           {{- end }}
@@ -81,7 +81,7 @@ spec:
           - name: SSM_{{ upper .}}
             valueFrom:
               secretKeyRef:
-                name: "{{ $.Release.Name }}-{{ $.Values.app.name }}-{{ $.Values.app.framework }}-aws-secrets"
+                name: "{{ $.Values.namespace }}-{{ $.Values.app.framework }}-aws-secrets"
                 key: ssm_{{ . }}
           {{- end }}
           {{- end }}

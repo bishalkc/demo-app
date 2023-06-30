@@ -146,7 +146,7 @@ ingress:
 
 #########---- Default values app ----#########
 app:
-  name: "demo-app-one"
+  name: "one"
   environment: "dev"
   port: 8080
   project: "demo-app"

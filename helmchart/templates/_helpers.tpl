@@ -47,8 +47,8 @@ environment: {{ .Values.app.environment }}
 Selector labels
 */}}
 {{- define "demo-app.selectorLabels" -}}
-app.kubernetes.io/name: {{ .Release.Name }}
-app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/name: {{ .Values.namespace }}
+app.kubernetes.io/instance: {{ .Values.namespace }}
 {{- end }}
 
 {{/*
@@ -62,7 +62,7 @@ managed-by: devops-team
 Service Account annotations
 */}}
 {{- define "demo-app.serviceAccountAnnotations" -}}
-eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Values.serviceAccount.aws_account_id}}:role/role-secrets-{{ .Values.app.project }}-{{ .Values.app.environment }}-{{ .Values.app.name }}-{{ .Values.app.framework }}"
+eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Values.serviceAccount.aws_account_id}}:role/role-secrets-{{ .Values.app.project }}-{{ .Values.app.name }}-{{ .Values.app.framework }}-{{ .Values.app.environment }}"
 {{- end }}
 
 {{/*
@@ -82,7 +82,7 @@ Common annotations
 {{- define "demo-app.ingressAnnotations" -}}
 {{- if .Values.ingress.alb.enabled  -}}
 alb.ingress.kubernetes.io/scheme: internet-facing
-alb.ingress.kubernetes.io/load-balancer-name: "{{ .Values.app.project }}-{{ .Values.app.name }}-{{ .Values.app.framework }}-{{ .Values.app.environment }}"
+alb.ingress.kubernetes.io/load-balancer-name: "{{ .Values.namespace }}-{{ .Values.app.framework }}-{{ .Values.app.environment }}"
 {{- else }}
 alb.ingress.kubernetes.io/scheme: internal
 {{- end }}
