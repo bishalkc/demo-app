@@ -68,6 +68,8 @@ SSM_ENVIRONMENT = environ.get('SSM_ENVIRONMENT')
 SSM_FRAMEWORK = environ.get('SSM_FRAMEWORK')
 SSM_API_KEY = environ.get('SSM_API_KEY')
 SSM_HASH_KEY = environ.get('SSM_HASH_KEY')
+IMAGE_ID = environ.get('IMAGE_ID')
+
 CUSTOM_HEADERS = {"X-App-Header": "demo-app", "Content-Language": "en-US", "Content-Type": "application/json"}
 ## VARS ##
 
@@ -77,6 +79,7 @@ CUSTOM_HEADERS = {"X-App-Header": "demo-app", "Content-Language": "en-US", "Cont
 #     content = {"app-name": "demo-app"}
 #     # logger.info("Sending response for: /")
 #     return JSONResponse(content=content, headers=CUSTOM_HEADERS)
+
 
 
 @api.get("/", response_class=HTMLResponse)
@@ -110,6 +113,11 @@ def readiness():
 @api.get("/ssm")
 def readiness():
     content = {"SSM_NAME": SSM_NAME, "SSM_ENVIRONMENT": SSM_ENVIRONMENT, "SSM_FRAMEWORK": SSM_FRAMEWORK, "SSM_API_KEY": SSM_API_KEY, "SSM_HASH_KEY": SSM_HASH_KEY}
+    return JSONResponse(content=content, headers=CUSTOM_HEADERS)
+
+@api.get("/id")
+async def id(data: Item):
+    content = {"IMAGE_ID": IMAGE_ID}
     return JSONResponse(content=content, headers=CUSTOM_HEADERS)
 
 @api.post("/publisher")
