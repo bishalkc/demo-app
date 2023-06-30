@@ -62,7 +62,7 @@ managed-by: devops-team
 Service Account annotations
 */}}
 {{- define "demo-app.serviceAccountAnnotations" -}}
-eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Values.serviceAccount.aws_account_id}}:role/role-secrets-{{ .Values.app.project }}-{{ .Values.app.environment }}-{{ .Values.app.framework }}"
+eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Values.serviceAccount.aws_account_id}}:role/role-secrets-{{ .Values.app.project }}-{{ .Values.app.environment }}-{{ .Values.app.name }}-{{ .Values.app.framework }}"
 {{- end }}
 
 {{/*
@@ -82,7 +82,7 @@ Common annotations
 {{- define "demo-app.ingressAnnotations" -}}
 {{- if .Values.ingress.alb.enabled  -}}
 alb.ingress.kubernetes.io/scheme: internet-facing
-alb.ingress.kubernetes.io/load-balancer-name: "{{ .Values.app.project }}-{{ .Values.app.framework }}-{{ .Values.app.environment }}"
+alb.ingress.kubernetes.io/load-balancer-name: "{{ .Values.app.project }}-{{ .Values.app.name }}-{{ .Values.app.framework }}-{{ .Values.app.environment }}"
 {{- else }}
 alb.ingress.kubernetes.io/scheme: internal
 {{- end }}
@@ -98,6 +98,6 @@ alb.ingress.kubernetes.io/load-balancer-attributes: deletion_protection.enabled=
 {{- end }}
 alb.ingress.kubernetes.io/healthcheck-path: {{ .Values.readinessProbe.path }}
 alb.ingress.kubernetes.io/success-codes: '200-403'
-alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=300
+alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=300,load_balancing.algorithm.type=round_robin
 alb.ingress.kubernetes.io/target-type: ip
 {{- end }}

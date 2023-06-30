@@ -41,12 +41,12 @@ spec:
           matchLabels:
             {{- include "demo-app.selectorLabels" . | nindent 14 }}
       volumes:
-      - name: "{{ .Release.Name }}-{{ .Values.app.framework }}-aws-secrets-store"
+      - name: "{{ .Release.Name }}-{{ .Values.app.name }}-{{ .Values.app.framework }}-aws-secrets-store"
         csi:
           driver: secrets-store.csi.k8s.io
           readOnly: true
           volumeAttributes:
-            secretProviderClass: "{{ .Release.Name }}-{{ .Values.app.framework }}-spc"
+            secretProviderClass: "{{ .Release.Name }}-{{ .Values.app.name }}-{{ .Values.app.framework }}-spc"
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -59,55 +59,28 @@ spec:
             runAsNonRoot: {{ .Values.containers.securityContext.runAsNonRoot }}
             runAsUser: {{ .Values.containers.securityContext.runAsUser }}
           volumeMounts:
-          - name: "{{ .Release.Name }}-{{ .Values.app.framework }}-aws-secrets-store"
+          - name: "{{ .Release.Name }}-{{ .Values.app.name }}-{{ .Values.app.framework }}-aws-secrets-store"
             mountPath: /mnt/secrets
             readOnly: true
           env:
-          - name: SECRET_USER
+          {{- if .Values.app.secrets.manager.enabled }}
+          {{- range .Values.app.secrets.manager.params }}
+          - name: SECRET_{{ upper . }}
             valueFrom:
               secretKeyRef:
-                name: "{{ .Release.Name }}-{{ .Values.app.framework }}-aws-secrets"
-                key: db_user
-          - name: SECRET_PASSWORD
+                name: "{{ $.Release.Name }}-{{ $.Values.app.name }}-{{ $.Values.app.framework }}-aws-secrets"
+                key: secret_{{ . }}
+          {{- end }}
+          {{- end }}
+          {{- if .Values.app.secrets.ssm.enabled }}
+          {{- range .Values.app.secrets.ssm.params }}
+          - name: SSM_{{ upper .}}
             valueFrom:
               secretKeyRef:
-                name: "{{ .Release.Name }}-{{ .Values.app.framework }}-aws-secrets"
-                key: db_password
-          - name: SECRET_HOST
-            valueFrom:
-              secretKeyRef:
-                name: "{{ .Release.Name }}-{{ .Values.app.framework }}-aws-secrets"
-                key: db_host
-          - name: SECRET_DBNAME
-            valueFrom:
-              secretKeyRef:
-                name: "{{ .Release.Name }}-{{ .Values.app.framework }}-aws-secrets"
-                key: db_name
-          - name: SSM_NAME
-            valueFrom:
-              secretKeyRef:
-                name: "{{ .Release.Name }}-{{ .Values.app.framework }}-aws-secrets"
-                key: ssm_name
-          - name: SSM_ENVIRONMENT
-            valueFrom:
-              secretKeyRef:
-                name: "{{ .Release.Name }}-{{ .Values.app.framework }}-aws-secrets"
-                key: ssm_environment
-          - name: SSM_FRAMEWORK
-            valueFrom:
-              secretKeyRef:
-                name: "{{ .Release.Name }}-{{ .Values.app.framework }}-aws-secrets"
-                key: ssm_framework
-          - name: SSM_API_KEY
-            valueFrom:
-              secretKeyRef:
-                name: "{{ .Release.Name }}-{{ .Values.app.framework }}-aws-secrets"
-                key: ssm_api_key
-          - name: SSM_HASH_KEY
-            valueFrom:
-              secretKeyRef:
-                name: "{{ .Release.Name }}-{{ .Values.app.framework }}-aws-secrets"
-                key: ssm_hash_key
+                name: "{{ $.Release.Name }}-{{ $.Values.app.name }}-{{ $.Values.app.framework }}-aws-secrets"
+                key: ssm_{{ . }}
+          {{- end }}
+          {{- end }}
           - name: IMAGE_ID
             value: "{{ .Values.image.repository}}:{{ .Values.image.tag }}"
           ports:
