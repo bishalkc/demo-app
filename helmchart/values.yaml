@@ -146,7 +146,8 @@ ingress:
 
 #########---- Default values app ----#########
 app:
-  environment: dev
+  name: "one"
+  environment: "dev"
   port: 8080
   project: "demo-app"
   tenant: "DA"
@@ -155,8 +156,14 @@ app:
   secrets:
     manager:
       enabled: true
-      name: "database-v5"
+      name: "secrets"
+      version: "v1"
       type: "aws"
+      params:
+        - user
+        - password
+        - host
+        - dbname
     ssm:
       enabled: true
       params:
