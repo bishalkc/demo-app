@@ -33,6 +33,23 @@ jobs:
             type=sha
           flavor: |
             latest=false
+      - name: Branch used
+        id: extract_branch
+        run: |
+          if [[ "${GITHUB_EVENT_NAME}" == "push" ]]; then
+            echo "::set-output name=branch::$(echo ${GITHUB_REF##*/})"
+          elif [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then
+            echo "::set-output name=branch::$(echo $GITHUB_BASE_REF)"
+          else
+            echo "::set-output name=branch::INVALID_EVENT_BRANCH_UNKNOWN"
+          fi
+      - name: Get Branch Name
+        id: extract_branch
+        run: |
+          echo "::set-output name=branch::$(echo sha-${GITHUB_SHA::7})"
+      - name: Branch Name
+        run: |
+          echo ${{ steps.extract_branch.outputs.branch }}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
@@ -65,21 +82,21 @@ jobs:
           context: .
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-      # - name: Run Trivy vulnerability scanner
-      #   uses: aquasecurity/trivy-action@master
-      #   with:
-      #     image-ref: "bishalkc/demo-app:${{ github.ref_name }}"
-      #     format: "sarif"
-      #     output: "trivy-results.sarif"
-      #     severity: "HIGH,CRITICAL"
-      # - run: |
-      #     cat trivy-results.sarif
-      # - name: Upload Trivy scan results to GitHub Security tab
-      #   uses: github/codeql-action/upload-sarif@v2
-      #   with:
-      #     sarif_file: "trivy-results.sarif"
-      #     wait-for-processing: true
-      - name: Push Docker Image
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: "bishalkc/demo-app:${{ steps.extract_branch.outputs.branch }}"
+          format: "sarif"
+          output: "trivy-results.sarif"
+          severity: "HIGH,CRITICAL"
+      - run: |
+          cat trivy-results.sarif
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: "trivy-results.sarif"
+          wait-for-processing: true
+      - name: Push
         uses: docker/build-push-action@v4
         with:
           context: .
