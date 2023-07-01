@@ -68,12 +68,12 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: "bishalkc/demo-app:${{ steps.meta.outputs.tags }}"
+          image-ref: "bishalkc/demo-app:${{ github.sha::8 }}"
           format: "sarif"
           output: "trivy-results.sarif"
           severity: "HIGH,CRITICAL"
-      - run: | 
-          cat trivy-results.sarif           
+      - run: |
+          cat trivy-results.sarif
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
         with:
