@@ -36,7 +36,7 @@ jobs:
       - name: Get Branch Name
         id: extract_branch
         run: |
-          echo "::set-output name=branch::$(echo sha-${GITHUB_SHA::7})"
+          echo "branch=$(echo sha-${GITHUB_SHA::7})" >> $GITHUB_OUTPUT
       - name: Branch Name
         run: |
           echo ${{ steps.extract_branch.outputs.branch }}
@@ -76,8 +76,9 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: "bishalkc/demo-app:${{ steps.extract_branch.outputs.branch }}"
-          format: "sarif"
-          output: "trivy-results.sarif"
+          format: "template"
+          template: "@/contrib/sarif.tpl"
+          output: "trivy-results-docker.sarif"
           severity: "HIGH,CRITICAL"
       - run: |
           cat trivy-results.sarif
