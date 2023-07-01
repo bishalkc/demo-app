@@ -36,9 +36,7 @@ jobs:
             type=ref,event=branch
             type=ref,event=branch,enable=true,priority=600,suffix=-{{sha}}-{{date 'YYYYMMDD-hhmmss'}}
             type=ref,event=pr
-            type=ref,event=pr,pattern={{branch}}
             type=ref,event=tag
-            type=ref,event=tag,pattern={{branch}}
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
