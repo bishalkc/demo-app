@@ -67,12 +67,9 @@ jobs:
           registry: docker.io
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - name: Build Docker Image
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+      - name: Build an image from Dockerfile
+        run: |
+          docker build -t docker.io/${{ github.repository }}:${{ steps.extract_branch.outputs.branch }} .
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
@@ -91,10 +88,10 @@ jobs:
         with:
           sarif_file: "trivy-results.sarif"
           wait-for-processing: true
-      - name: Push
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: ${{ GitHub.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+      # - name: Push
+      #   uses: docker/build-push-action@v4
+      #   with:
+      #     context: .
+      #     push: ${{ GitHub.event_name != 'pull_request' }}
+      #     tags: ${{ steps.meta.outputs.tags }}
+      #     labels: ${{ steps.meta.outputs.labels }}
