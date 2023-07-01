@@ -60,7 +60,6 @@ jobs:
           context: .
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          wait-for-processing: true
       - run: |
           docker images
       - name: Run Trivy vulnerability scanner for Pull
@@ -74,7 +73,6 @@ jobs:
           format: "sarif"
           output: "trivy-results.sarif"
           severity: "HIGH,CRITICAL"
-          wait-for-processing: true
       - run: |
           cat trivy-results.sarif
       - name: Upload Trivy scan results to GitHub Security tab
