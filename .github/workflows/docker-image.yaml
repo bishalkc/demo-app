@@ -26,8 +26,9 @@ jobs:
             type=ref,event=branch
             type=ref,event=branch,enable=true,priority=600,suffix=-{{sha}}-{{date 'YYYYMMDD-hhmmss'}}
             type=ref,event=pr
-            type=ref,event=pr,patter={{branch}}
+            type=ref,event=pr,pattern={{branch}}
             type=ref,event=tag
+            type=ref,event=tag,pattern={{branch}}
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
@@ -60,7 +61,7 @@ jobs:
           registry: docker.io
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - name: Build and push
+      - name: Docker Image Build
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -80,7 +81,7 @@ jobs:
         with:
           sarif_file: "trivy-results.sarif"
           wait-for-processing: true
-      - name: Push
+      - name: Docker Image Push
         uses: docker/build-push-action@v4
         with:
           context: .
