@@ -1,4 +1,4 @@
-FROM python:3.10-alpine
+FROM python:3.11-alpine
 
 ARG APP_USER=${APP_USER:-demo-app}
 ARG APP_UUID=${APP_UUID:-1020}
