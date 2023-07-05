@@ -116,7 +116,7 @@ def readiness():
     return JSONResponse(content=content, headers=CUSTOM_HEADERS)
 
 @api.get("/id")
-async def id(data: Item):
+def readiness():
     content = {"IMAGE_ID": IMAGE_ID}
     return JSONResponse(content=content, headers=CUSTOM_HEADERS)
 
