@@ -8,10 +8,11 @@ services:
       args:
         - APP_USER=demo-app
         - APP_UUID=1020
-    image: local/demo-app:v11
+    image: local/demo-app:latest
     environment:
       - SECURE_PASSWORD_1=i-am-encoded-secret-1
       - SECURE_PASSWORD_2=i-am-encoded-secret-2
+      - IMAGE_ID=local/demo-app:latest
     restart: always
     networks:
       - demo-app
