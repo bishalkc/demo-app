@@ -58,6 +58,7 @@ jobs:
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
         with:
+          category: "${{ github.repository }}-code"
           sarif_file: "trivy-fs-results.sarif"
       - name: Login to Docker Hub
         if: GitHub.event_name != 'pull_request'
@@ -85,8 +86,8 @@ jobs:
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
         with:
+          category: "${{ github.repository }}-image"
           sarif_file: "trivy-results.sarif"
-          wait-for-processing: true
       - name: Push
         uses: docker/build-push-action@v4
         with:
