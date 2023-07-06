@@ -11,7 +11,7 @@ repos:
         args: ["--allow-missing-credentials"]
       - id: check-yaml
         args: [--allow-multiple-documents]
-        exclude: ^helmchart/templates/*
+        exclude: helmchart/templates/*
       - id: check-added-large-files
       - id: check-json
       - id: mixed-line-ending
