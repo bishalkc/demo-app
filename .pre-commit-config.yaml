@@ -12,6 +12,9 @@ repos:
       - id: check-yaml
         args: [--allow-multiple-documents]
         exclude: ^helmchart/templates/*
+      - id: check-added-large-files
+      - id: check-json
+      - id: mixed-line-ending
   - repo: https://github.com/gruntwork-io/pre-commit
     rev: v0.1.21
     hooks:
